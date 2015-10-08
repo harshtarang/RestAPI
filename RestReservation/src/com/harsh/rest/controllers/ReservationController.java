@@ -26,16 +26,16 @@ public class ReservationController {
 	public List<Reservation> getAllReservations()
 	{
 		
-	//	try 
-	//	{
+		try 
+		{
 			ReservationDAO dao=new ReservationDAO();
 			return dao.getAllReservations();
-	//	} 
-	//	catch (Exception e) 
-	//	{
-			//throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
-	//		return null;
-	//	}
+		} 
+		catch (Exception e) 
+		{
+			throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
+			
+		}
 	}
 	
 	@GET
@@ -46,19 +46,19 @@ public class ReservationController {
 		
 		
 		
-	//	try 
-	//	{
+		try 
+		{
 			ReservationDAO dao=new ReservationDAO();
 			Reservation res= dao.getReservation(resId);
-			//if(res==null)
-			//	throw new WebApplicationException(Status.NOT_FOUND);
-			//else
+			if(res==null)
+				throw new WebApplicationException(Status.NOT_FOUND);
+			else
 			return res;
-	//	}
-	//	catch (AppException e) 
-	//	{
-	//		throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
-	//	}
+		}
+		catch (AppException e) 
+		{
+			throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
+		}
 	}
 //	
 //	@POST

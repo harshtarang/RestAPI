@@ -7,13 +7,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
+import com.harsh.exception.AppException;
 //import com.harsh.exception.AppException;
 import com.harsh.model.Reservation;
 import com.harsh.utils.DBUtils;
 
 public class ReservationDAO {
 	
-	public List<Reservation> getAllReservations() //throws AppException
+	public List<Reservation> getAllReservations() throws AppException
 	{
 		List<Reservation> resList = new ArrayList<Reservation>();
 		Connection con=DBUtils.getConnection();
@@ -51,7 +53,7 @@ public class ReservationDAO {
 		{
 		
 			e.printStackTrace();
-			//throw new AppException(e.getMessage(),e.getCause());
+			throw new AppException(e.getMessage(),e.getCause());
 		}
 		finally 
 		{
@@ -63,7 +65,7 @@ public class ReservationDAO {
 	
 	
 	
-	public Reservation getReservation(int resId) //throws AppException
+	public Reservation getReservation(int resId) throws AppException
 	{
 		Reservation res=null;
 		
@@ -100,7 +102,7 @@ public class ReservationDAO {
 		{
 		
 			e.printStackTrace();
-		//	throw new AppException(e.getMessage(),e.getCause());
+			throw new AppException(e.getMessage(),e.getCause());
 		}
 		finally
 		{
