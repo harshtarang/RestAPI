@@ -60,36 +60,38 @@ public class ReservationController {
 			throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
 		}
 	}
-//	
-//	@POST
-//	@Consumes(MediaType.APPLICATION_JSON)
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public Reservation createReservation(Reservation res)
-//	{
-//		ReservationDAO dao=new ReservationDAO();
-//		//try 
-//		//{
-//			return dao.createReservation(res);
-//		//} 
-//		//catch (AppException e)
-//		//{
-//		//	throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
-//		//}
-//	}
-//	
-//	@PUT
-//	@Path("{/id}")
-//	@Consumes(MediaType.APPLICATION_JSON)
-//	public void updateReservation(@PathParam("id") int resId,Reservation res)
-//	{
-//		ReservationDAO dao=new ReservationDAO();
-//		
-//	}
-//	
-//	public void delete()
-//	{
-//		
-//	}
-//	
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Reservation createReservation(Reservation res)
+	{
+		ReservationDAO dao=new ReservationDAO();
+		try 
+		{
+			return dao.createReservation(res);
+		} 
+		catch (AppException e)
+		{
+			throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
+		}
+		
+	}
+	
+	@PUT
+	@Path("/{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public void updateReservation(@PathParam("id") int resId,Reservation res)
+	{
+		//ReservationDAO dao=new ReservationDAO();
+		
+	}
+	
+	public void delete()
+	{
+		
+	}
+	
 
 }
