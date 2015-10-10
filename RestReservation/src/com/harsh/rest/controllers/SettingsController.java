@@ -1,6 +1,5 @@
 package com.harsh.rest.controllers;
 
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -10,24 +9,24 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
 
-import com.harsh.dao.ProfileDAO;
-import com.harsh.exception.AppException;
-import com.harsh.model.Profile;
+
+import com.harsh.dao.SettingsDAO;
+import com.harsh.model.Settings;
 
 
-@Path("/profile")
-public class ProfileController 
-{
+@Path("/settings")
+public class SettingsController {
+
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Profile getProfile()
+	public Settings getSettings()
 	{
 		
 		try 
 		{
-			ProfileDAO dao=new ProfileDAO();
-			return dao.getProfile();
+			SettingsDAO dao=new SettingsDAO();
+			return dao.getSettings();
 		} 
 		catch (Exception e) 
 		{
@@ -39,14 +38,18 @@ public class ProfileController
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Profile updateProfile(Profile profile)
+	public Settings updateSettings(Settings settings)
 	{
-		ProfileDAO dao = new ProfileDAO();
-		try {
-			return dao.update(profile);
-		} catch (AppException e) {
-			throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
+		try
+		{
+			SettingsDAO dao = new SettingsDAO();
+			return dao.updateSettings(settings);
 		}
+		catch (Exception e) 
+		{
+			throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
+			
+		}
+		
 	}
-
 }

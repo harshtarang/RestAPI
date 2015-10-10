@@ -56,14 +56,14 @@ public class ProfileDAO {
 	}
 	
 	
-	public Profile update(Profile profile)
+	public Profile update(Profile profile) throws AppException
 	{
 		deleteProfile();
 		createProfile(profile);
 		return profile;
 	}
 	
-	private void createProfile(Profile profile)
+	private void createProfile(Profile profile) throws AppException
 	{
 		Connection con=DBUtils.getConnection();
 		
@@ -85,13 +85,9 @@ public class ProfileDAO {
 		{
 		
 			e.printStackTrace();
-			try {
+		
 				throw new AppException(e.getMessage(),e.getCause());
-			} catch (AppException e1) 
-			{
-				
-				e1.printStackTrace();
-			}
+			 
 		}
 		finally 
 		{
@@ -101,7 +97,7 @@ public class ProfileDAO {
 		
 	}
 	
-	private void deleteProfile()
+	private void deleteProfile() throws AppException
 	{
 		Connection con=DBUtils.getConnection();
 		
@@ -117,13 +113,9 @@ public class ProfileDAO {
 		{
 		
 			e.printStackTrace();
-			try {
+			
 				throw new AppException(e.getMessage(),e.getCause());
-			} catch (AppException e1) 
-			{
-				
-				e1.printStackTrace();
-			}
+			
 		}
 		finally 
 		{
