@@ -3,6 +3,7 @@ package com.harsh.rest.controllers;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -82,15 +83,35 @@ public class ReservationController {
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public void updateReservation(@PathParam("id") int resId,Reservation res)
+	public Reservation updateReservation(@PathParam("id") int resId,Reservation res)
 	{
-		//ReservationDAO dao=new ReservationDAO();
+		ReservationDAO dao=new ReservationDAO();
+		try 
+		{
+			return dao.updateReservation(resId, res);
+		} 
+		catch (AppException e)
+		{
+			throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
+		}
+		
 		
 	}
 	
-	public void delete()
+	@DELETE
+	@Path("/{id}")
+	public void delete(@PathParam("id") int resId)
 	{
-		
+		try 
+		{
+			ReservationDAO dao=new ReservationDAO();
+			 dao.deleteReservation(resId);
+		} 
+		catch (Exception e) 
+		{
+			throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
+			
+		}
 	}
 	
 

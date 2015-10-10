@@ -157,14 +157,68 @@ public class ReservationDAO {
 		return res;
 	}
 	
-	public Reservation updateReservation(int resId, Reservation res)
+	public Reservation updateReservation(int resId, Reservation res) throws AppException
 	{
 		Connection con=DBUtils.getConnection();
 		
 		PreparedStatement ps=null;
 		ResultSet rs=null;
 		
+		try
+		{
+			ps=con.prepareStatement("UPDATE reservations SET FULL_NAME =?,EMAIL=?, OCCASION=?, PARTY_SIZE=?,PHONE=?,DATE_TIME=?,WAIT_STATUS=?,CREATE_TIME=?,TABLE_ID =? WHERE ID=?");
+			ps.setString(1, res.getName());
+			ps.setString(2, res.getEmail());
+			ps.setString(3, res.getOccasion());
+			ps.setInt(4, res.getPartySize());
+			ps.setString(5, res.getPhone());
+			ps.setTimestamp(6, res.getTime());
+			ps.setBoolean(7, res.getWaitStatus());
+			ps.setTimestamp(8, res.getCreateTime());
+			ps.setInt(9, res.getTableId());
+			ps.setInt(10, resId);
+			
+			ps.executeUpdate();
+			
+		}
+		catch (SQLException e) {
+			
+			e.printStackTrace();
+			throw new AppException(e.getMessage(),e.getCause());
+		}
+		finally
+		{
+			DBUtils.closeResource(ps, rs, con);
+		}
+		
+		
 		return res;
+	}
+	
+	
+	public void deleteReservation(int resId) throws AppException
+	{
+		Connection con=DBUtils.getConnection();
+		
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		
+		try
+		{
+			ps=con.prepareStatement("DELETE FROM reservations WHERE ID =?");
+			ps.setInt(1, resId);
+			
+			ps.executeUpdate();
+		}
+		catch (SQLException e) {
+			
+			e.printStackTrace();
+			throw new AppException(e.getMessage(),e.getCause());
+		}
+		finally
+		{
+			DBUtils.closeResource(ps, rs, con);
+		}
 	}
 	
 
