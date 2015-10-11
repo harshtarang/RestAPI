@@ -93,7 +93,7 @@ public class ReservationDAO {
 				res.setTime(rs.getTimestamp("DATE_TIME"));
 				res.setWaitStatus(rs.getBoolean("WAIT_STATUS"));
 				res.setCreateTime(rs.getTimestamp("CREATE_TIME"));
-				
+				res.setTableId(rs.getInt("TABLE_ID"));
 			}
 			
 		}

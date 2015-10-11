@@ -1,5 +1,10 @@
 package com.harsh.rest.controllers;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -20,10 +25,18 @@ import com.harsh.model.Reservation;
 
 
 @Path("/reservations")
+@Api(tags={"reservations"})
 public class ReservationController {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "Fetch all reservations" ,
+	notes="Fetches all reservations from the DB")
+	@ApiResponses(value = { 
+			@ApiResponse(code = 200, message = "Success"), 
+			@ApiResponse(code = 500, message = "Internal Server Error")
+			
+	})
 	public List<Reservation> getAllReservations()
 	{
 		
@@ -42,6 +55,14 @@ public class ReservationController {
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "Fetch a reservation" ,
+	notes="Fetches a reservation from the DB based on the ID")
+	@ApiResponses(value = { 
+			@ApiResponse(code = 200, message = "Success"), 
+			@ApiResponse(code = 404, message = "Reservation not found"),
+			@ApiResponse(code = 500, message = "Internal Server Error")
+			
+	})
 	public Reservation getReservation(@PathParam("id") int resId)
 	{
 		
@@ -65,6 +86,13 @@ public class ReservationController {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "Create a new reservation" ,
+	notes="Create a new reservation with a JSON object")
+	@ApiResponses(value = { 
+			@ApiResponse(code = 200, message = "Success"), 
+			@ApiResponse(code = 500, message = "Internal Server Error")
+			
+	})
 	public Reservation createReservation(Reservation res)
 	{
 		ReservationDAO dao=new ReservationDAO();
@@ -83,6 +111,13 @@ public class ReservationController {
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "Update a reservation" ,
+	notes="Updates a reservation based on ID")
+	@ApiResponses(value = { 
+			@ApiResponse(code = 200, message = "Success"), 
+			@ApiResponse(code = 500, message = "Internal Server Error")
+			
+	})
 	public Reservation updateReservation(@PathParam("id") int resId,Reservation res)
 	{
 		ReservationDAO dao=new ReservationDAO();
@@ -100,6 +135,13 @@ public class ReservationController {
 	
 	@DELETE
 	@Path("/{id}")
+	@ApiOperation(value = "Delete a reservation" ,
+	notes="Deletes a reservation based on ID")
+	@ApiResponses(value = { 
+			@ApiResponse(code = 200, message = "Success"), 
+			@ApiResponse(code = 500, message = "Internal Server Error")
+			
+	})
 	public void delete(@PathParam("id") int resId)
 	{
 		try 
@@ -114,5 +156,5 @@ public class ReservationController {
 		}
 	}
 	
-
 }
+
