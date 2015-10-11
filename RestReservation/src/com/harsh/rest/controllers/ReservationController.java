@@ -101,6 +101,7 @@ public class ReservationController {
 		try 
 		{
 			ReservationDAO dao=new ReservationDAO();
+			
 			SettingsDAO setDAO=new SettingsDAO();
 			Settings settings = setDAO.getSettings();
 			if(!settings.isAutoAssign())
