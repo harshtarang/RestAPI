@@ -20,8 +20,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
 
 import com.harsh.dao.ReservationDAO;
+import com.harsh.dao.SettingsDAO;
 import com.harsh.exception.AppException;
 import com.harsh.model.Reservation;
+import com.harsh.model.Settings;
 
 
 @Path("/reservations")
@@ -95,9 +97,17 @@ public class ReservationController {
 	})
 	public Reservation createReservation(Reservation res)
 	{
-		ReservationDAO dao=new ReservationDAO();
+		
 		try 
 		{
+			ReservationDAO dao=new ReservationDAO();
+			SettingsDAO setDAO=new SettingsDAO();
+			Settings settings = setDAO.getSettings();
+			if(!settings.isAutoAssign())
+			{
+				res.setWaitStatus(true);
+				res.setTableId(0);
+			}
 			return dao.createReservation(res);
 		} 
 		catch (AppException e)
