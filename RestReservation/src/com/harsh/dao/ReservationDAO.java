@@ -42,7 +42,7 @@ public class ReservationDAO {
 				res.setTime(rs.getTimestamp("DATE_TIME"));
 				res.setWaitStatus(rs.getBoolean("WAIT_STATUS"));
 				res.setCreateTime(rs.getTimestamp("CREATE_TIME"));
-				
+				res.setTableId(rs.getInt("TABLE_ID"));
 				resList.add(res);
 				
 				
@@ -122,6 +122,54 @@ public class ReservationDAO {
 		
 		try 
 		{
+			
+			
+			ps=con.prepareStatement("INSERT INTO reservations (FULL_NAME,EMAIL, OCCASION, PARTY_SIZE, PHONE, DATE_TIME, WAIT_STATUS, CREATE_TIME, TABLE_ID) VALUES (?,?,?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
+			ps.setString(1, res.getName());
+			ps.setString(2, res.getEmail());
+			ps.setString(3, res.getOccasion());
+			ps.setInt(4, res.getPartySize());
+			ps.setString(5, res.getPhone());
+			ps.setTimestamp(6, res.getTime());
+			ps.setBoolean(7, res.getWaitStatus());
+			ps.setTimestamp(8, res.getCreateTime());
+			ps.setInt(9, res.getTableId());
+			
+			
+			ps.executeUpdate();
+			
+			rs=ps.getGeneratedKeys();
+			
+			if(rs.next())
+			{
+				res.setId(rs.getInt(1));
+			}
+			
+		}
+		catch (SQLException e) {
+		
+			e.printStackTrace();
+			throw new AppException(e.getMessage(),e.getCause());
+		}
+		finally
+		{
+			DBUtils.closeResource(ps, rs, con);
+		}
+		
+		return res;
+	}
+	
+	public Reservation createAutoReservation(Reservation res) throws AppException
+	{
+		Connection con=DBUtils.getConnection();
+		
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		
+		try 
+		{
+		
+			
 			ps=con.prepareStatement("INSERT INTO reservations (FULL_NAME,EMAIL, OCCASION, PARTY_SIZE, PHONE, DATE_TIME, WAIT_STATUS, CREATE_TIME, TABLE_ID) VALUES (?,?,?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
 			ps.setString(1, res.getName());
 			ps.setString(2, res.getEmail());

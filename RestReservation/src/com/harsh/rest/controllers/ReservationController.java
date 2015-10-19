@@ -20,9 +20,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
 
 import com.harsh.dao.ReservationDAO;
+import com.harsh.dao.SeatingDAO;
 import com.harsh.dao.SettingsDAO;
 import com.harsh.exception.AppException;
 import com.harsh.model.Reservation;
+import com.harsh.model.Seating;
 import com.harsh.model.Settings;
 
 
@@ -104,12 +106,35 @@ public class ReservationController {
 			
 			SettingsDAO setDAO=new SettingsDAO();
 			Settings settings = setDAO.getSettings();
+			
+			
 			if(!settings.isAutoAssign())
 			{
 				res.setWaitStatus(true);
 				res.setTableId(0);
+				res= dao.createReservation(res);
 			}
-			return dao.createReservation(res);
+			else
+			{
+				SeatingDAO seatingDAO=new SeatingDAO();
+				int emptyTableId=seatingDAO.getEmptyTable();
+				
+				if(emptyTableId!=0)
+				{
+					res.setTableId(emptyTableId);
+					res.setWaitStatus(false);
+					res= dao.createReservation(res);
+					Seating seat = new Seating(emptyTableId,true,res.getTime(),res.getId());
+					seatingDAO.update(seat.getId(), seat);
+				}
+				
+				
+				
+				
+			}
+			
+			
+			return res;
 		} 
 		catch (AppException e)
 		{
@@ -159,6 +184,10 @@ public class ReservationController {
 		{
 			ReservationDAO dao=new ReservationDAO();
 			 dao.deleteReservation(resId);
+			 SeatingDAO seatDAO = new SeatingDAO();
+			 Seating seat= seatDAO.getTableByReserveID(resId);
+			 if(seat!=null)
+			 seatDAO.freeTable(seat.getId(),seat);
 		} 
 		catch (Exception e) 
 		{

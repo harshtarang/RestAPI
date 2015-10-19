@@ -11,7 +11,7 @@ import com.harsh.utils.DBUtils;
 
 public class ProfileDAO {
 	
-	public Profile getProfile()
+	public Profile getProfile() throws AppException
 	{
 		Profile profile=new Profile();
 		
@@ -39,13 +39,9 @@ public class ProfileDAO {
 		{
 		
 			e.printStackTrace();
-			try {
+			
 				throw new AppException(e.getMessage(),e.getCause());
-			} catch (AppException e1) 
-			{
-				
-				e1.printStackTrace();
-			}
+			
 		}
 		finally 
 		{
